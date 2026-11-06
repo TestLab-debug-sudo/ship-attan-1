@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-ocean-deep: #063B5C;
+    --color-ocean-navy: #082F49;
+    --color-marine-aqua: #27C5C1;
+    --color-marine-seagreen: #36B99B;
+    --color-beach-sand: #F2E5CC;
+    --color-coral: #FF875E;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .font-mono, .tabular-nums {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Realistic Marine Animations */
+@keyframes waveFlow {
+  0% { transform: translateX(0) translateZ(0) scaleY(1); }
+  50% { transform: translateX(-25%) translateZ(0) scaleY(0.85); }
+  100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+}
+
+@keyframes gentleBob {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(1.2deg); }
+}
+
+@keyframes cloudDrift {
+  0% { transform: translateX(-10%); }
+  100% { transform: translateX(110%); }
+}
+
+@keyframes seagullGlide {
+  0% { transform: translate(-20px, 0) scale(0.9); }
+  30% { transform: translate(120px, -18px) scale(1); }
+  70% { transform: translate(320px, 12px) scale(0.95); }
+  100% { transform: translate(550px, -10px) scale(0.9); }
+}
+
+@keyframes waterGlimmer {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.08); }
+}
+
+.animate-wave-slow {
+  animation: waveFlow 18s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+.animate-wave-medium {
+  animation: waveFlow 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+.animate-boat-bob {
+  animation: gentleBob 4.8s ease-in-out infinite;
+}
+
+.animate-cloud-slow {
+  animation: cloudDrift 65s linear infinite;
+}
+
+.animate-cloud-fast {
+  animation: cloudDrift 42s linear infinite;
+}
+
+.animate-water-glimmer {
+  animation: waterGlimmer 6s ease-in-out infinite;
+}
+
+/* Glassmorphism Marine Utility Classes */
+.marine-glass {
+  background: rgba(8, 47, 73, 0.72);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(39, 197, 193, 0.18);
+  box-shadow: 0 10px 30px -10px rgba(4, 25, 41, 0.5);
+}
+
+.marine-card {
+  background: linear-gradient(135deg, rgba(8, 47, 73, 0.85) 0%, rgba(6, 59, 92, 0.75) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 32px rgba(3, 20, 34, 0.35);
+}
+
+.marine-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.marine-card-hover:hover {
+  border-color: rgba(39, 197, 193, 0.35);
+  box-shadow: 0 14px 36px rgba(4, 30, 50, 0.55), 0 0 20px rgba(39, 197, 193, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Custom Scrollbar for Marine Theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(6, 35, 54, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(39, 197, 193, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(39, 197, 193, 0.6);
+}
+
+/* Nautical Map Styling for OpenStreetMap */
+.leaflet-container {
+  background: #063B5C !important;
+  font-family: inherit;
+}
+.leaflet-tile {
+  filter: brightness(0.9) contrast(1.15) saturate(1.2);
+}
+
+/* Universal Fluid Typography (clamp) */
+.text-fluid-title {
+  font-size: clamp(1.5rem, 3.5vw + 0.5rem, 2.75rem);
+  line-height: 1.15;
+}
+.text-fluid-h2 {
+  font-size: clamp(1.15rem, 2vw + 0.4rem, 1.75rem);
+  line-height: 1.25;
+}
+.text-fluid-h3 {
+  font-size: clamp(1rem, 1.4vw + 0.35rem, 1.35rem);
+  line-height: 1.3;
+}
+.text-fluid-body {
+  font-size: clamp(0.8rem, 0.8vw + 0.45rem, 0.925rem);
+  line-height: 1.5;
+}
+
+/* Touch Target Minimum (44px) for Mobile Ergonomics */
+.touch-target-min {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* iOS/Android Safe Area Support */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/* Prevent accidental horizontal page overflow */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
