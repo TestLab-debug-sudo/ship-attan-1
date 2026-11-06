@@ -53,6 +53,7 @@ export const LoginView: React.FC = () => {
               onTogglePasswordVisibility={controller.togglePasswordVisibility}
               onRememberMeChange={controller.setRememberMe}
               onSubmit={controller.handleSubmit}
+              onDirectPresetLogin={controller.handleDirectPresetLogin}
             />
           </div>
         </div>

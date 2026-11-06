@@ -20,6 +20,7 @@ interface OceanicLoginCardProps {
   onTogglePasswordVisibility: () => void;
   onRememberMeChange: (checked: boolean) => void;
   onSubmit: (e: React.FormEvent) => void;
+  onDirectPresetLogin?: (role: LoginRole) => void;
 }
 
 /**
@@ -46,7 +47,8 @@ export const OceanicLoginCard: React.FC<OceanicLoginCardProps> = ({
   onPasswordChange,
   onTogglePasswordVisibility,
   onRememberMeChange,
-  onSubmit
+  onSubmit,
+  onDirectPresetLogin
 }) => {
   return (
     <div className="w-full max-w-md mx-auto relative flex flex-col items-center">
@@ -220,6 +222,30 @@ export const OceanicLoginCard: React.FC<OceanicLoginCardProps> = ({
             or
           </span>
         </div>
+
+        {/* 1-Click Default Login Options */}
+        {onDirectPresetLogin && (
+          <div className="grid grid-cols-2 gap-2 mb-3">
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={() => onDirectPresetLogin('admin')}
+              className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/30 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm touch-target-min cursor-pointer"
+            >
+              <Shield className="w-3.5 h-3.5 text-cyan-300" />
+              <span>Default Admin</span>
+            </button>
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={() => onDirectPresetLogin('manager')}
+              className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/30 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm touch-target-min cursor-pointer"
+            >
+              <Users className="w-3.5 h-3.5 text-teal-300" />
+              <span>Default Manager</span>
+            </button>
+          </div>
+        )}
 
         {/* Footer Cursive Quote & Illuminated Wave Graphic */}
         <div className="text-center pt-1 space-y-1">

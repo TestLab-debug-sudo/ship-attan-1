@@ -38,6 +38,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (token) {
           const res = await api.getMe();
           setUser(res.user);
+        } else {
+          // If no active session and not explicitly logged out, automatically login as default Admin
+          const manuallyLoggedOut = sessionStorage.getItem('nautica_manual_logout');
+          if (!manuallyLoggedOut) {
+            try {
+              const res = await api.login('admin@nautica.marine', 'admin123');
+              setUser(res.user);
+            } catch (autoErr) {
+              console.warn('Auto login with default credentials skipped:', autoErr);
+            }
+          }
         }
       } catch (err) {
         console.warn('Session expired or invalid, clearing token');
@@ -55,6 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, pass: string) => {
     setIsLoading(true);
     try {
+      sessionStorage.removeItem('nautica_manual_logout');
       const res = await api.login(email, pass);
       setUser(res.user);
       await fetchDbStatus();
@@ -64,6 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const quickLogin = async (asRole: UserRole) => {
+    sessionStorage.removeItem('nautica_manual_logout');
     if (asRole === 'admin') {
       await login('admin@nautica.marine', 'admin123');
     } else {
@@ -72,6 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    sessionStorage.setItem('nautica_manual_logout', 'true');
     api.logout();
     setUser(null);
   };

@@ -4,9 +4,9 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext.js';
-import { 
-  LoginRole, 
-  validateLoginInput, 
+import {
+  LoginRole,
+  validateLoginInput,
   DEFAULT_PRESET_CREDENTIALS,
   loadRememberedUser,
   saveRememberedUser,
@@ -53,7 +53,10 @@ export function useLoginController() {
     e.preventDefault();
     setErrorMsg(null);
 
-    const validation = validateLoginInput(identifier, password);
+    const effectiveId = (identifier || DEFAULT_PRESET_CREDENTIALS[activeRole].identifier).trim();
+    const effectivePassword = password || DEFAULT_PRESET_CREDENTIALS[activeRole].password;
+
+    const validation = validateLoginInput(effectiveId, effectivePassword);
     if (!validation.isValid) {
       setErrorMsg(validation.errorMessage || 'Invalid credentials');
       return;
@@ -62,12 +65,12 @@ export function useLoginController() {
     setIsSubmitting(true);
     try {
       if (rememberMe) {
-        saveRememberedUser({ identifier: identifier.trim(), role: activeRole });
+        saveRememberedUser({ identifier: effectiveId, role: activeRole });
       } else {
         clearRememberedUser();
       }
 
-      await login(identifier.trim(), password);
+      await login(effectiveId, effectivePassword);
     } catch (err: any) {
       setErrorMsg(err.message || 'Authentication failed. Please verify credentials.');
     } finally {
